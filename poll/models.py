@@ -1,9 +1,7 @@
+from flask_login import UserMixin
 from enum import unique
-from flask_sqlalchemy import SQLAlchemy
 
-
-db = SQLAlchemy()
-
+from . import db
 
 class Base(db.Model):
     __abstract__ = True
@@ -14,7 +12,7 @@ class Base(db.Model):
         onupdate=db.func.current_timestamp())
     
 
-class User(Base):
+class User(UserMixin, Base):
 
     __table_name__ = "user"
 

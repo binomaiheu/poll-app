@@ -1,7 +1,10 @@
-from poll import db, app
+from poll import db, create_app
 from poll.models import *
 
 from poll.tools import key_gen
+
+
+db.create_all(app=create_app())
 
 
 # Confugration

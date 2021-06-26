@@ -1,10 +1,12 @@
-<html>
-    <head>
-        <title>{{title}}</title>
-        <link rel="stylesheet" type="text/css" href="/static/site.css" />
-    </head>
+{% extends "base.html" %}
 
-    <body>
-        <span class="message">{{message}}</span> : {{content}}
-    </body>
-</html>
+{% block content %}
+<h1 class="title">
+  Enquête pleintje Dennenhof
+</h1>
+<h2 class="subtitle">
+  Welkom op het stemformulier voor de inrichting van het pleintje van het Dennenhof. 
+  <a href='login'>Log in</a> om je stem uit te brengen, hiervoor heb je de geheime code nodig 
+  die je in de brievenbus vond. Alvast bedankt om van je te laten horen !
+</h2>
+{% endblock %}
