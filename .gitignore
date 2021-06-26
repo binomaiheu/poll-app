@@ -1,0 +1,4 @@
+poll.db
+__pycache__/
+poll/__pycache__/
+venv/
