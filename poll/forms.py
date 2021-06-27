@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from flask_wtf.recaptcha import validators
-from wtforms import StringField, SubmitField, IntegerField
+
+from wtforms import StringField, SubmitField
+from wtforms.fields.html5 import IntegerRangeField
 from wtforms import FieldList, FormField
 from wtforms.validators import DataRequired, InputRequired, NumberRange
 
@@ -13,7 +14,8 @@ class QuestionForm(FlaskForm):
     """
     Form for an individual question with a rating
     """    
-    rating = IntegerField('rating', validators=[InputRequired(), NumberRange(min=0, max=5)])
+    #rating = IntegerRangeField('rating', validators=[InputRequired(), NumberRange(min=0, max=5)])
+    rating = IntegerRangeField('rating', render_kw={"min": 0, "max": 5, "step": 1 })
 
 
 class PollForm(FlaskForm):
