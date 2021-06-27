@@ -2,6 +2,8 @@
 from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf.csrf import CSRFProtect
+
 
 db = SQLAlchemy()
 
@@ -19,6 +21,16 @@ def create_app():
     login_manager.login_message_category = 'warning'
     login_manager.init_app(app)
 
+
+    # protect the app from CORS attacks, 
+    # https://testdriven.io/blog/csrf-flask/
+    # Now, by default, all POST, PUT, PATCH, and DELETE methods are protected against CSRF. 
+    # Take note of this. You should never perform a side effect, like changing data in the database, via a GET request.
+    # all forms should includ e: 
+    # <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"> ? probably unless created with WTF-Forms
+
+    csrf = CSRFProtect()
+    csrf.init_app(app)
 
     from .models import User
     @login_manager.user_loader

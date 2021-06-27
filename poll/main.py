@@ -10,10 +10,10 @@ def index():
     return render_template('index.html')
 
 
-@main.route('/profile')
+@main.route('/poll')
 @login_required
-def profile():    
+def poll():    
     return render_template(
-        'profile.html',
+        'poll.html',
         secret_key=current_user.secret_key)
 
