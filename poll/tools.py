@@ -19,6 +19,7 @@ def get_user_scores(secret_key: str):
     """
     
     return db.session.query(Option, Vote, User).\
-            outerjoin(Vote, Vote.option_id == Option.id).\
-            outerjoin(User, Vote.user_id == User.id).\
-            filter(User.secret_key == secret_key).all()
+            join(Vote, Vote.option_id == Option.id).\
+            join(User, Vote.user_id == User.id).\
+            filter(User.secret_key == secret_key).\
+            order_by(Option.id).all()

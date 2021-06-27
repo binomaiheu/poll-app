@@ -1,9 +1,11 @@
 from flask import Blueprint, render_template
-from flask_login import login_required, current_user
+from flask.helpers import url_for
+from flask_login import login_required, current_user, logout_user
 from flask_login.utils import _secret_key
+from werkzeug.utils import redirect
 from . import db
 from .forms import PollForm
-from .tools import get_list_of_elements
+from .tools import get_user_scores
 
 main = Blueprint('main', __name__)
 
@@ -18,27 +20,28 @@ def poll():
 
     # https://prettyprinted.com/tutorials/how-to-use-fieldlist-in-flask-wtf
    
+    # get the scores given by the user to each option
+    result = get_user_scores( current_user.secret_key )
 
-    titles = get_list_of_elements()
+    votes = [ x[1] for x in result ]
 
-    user_scores = get_user_scores( current_user.secret_key )
-
-    form = PollForm(questions=[ 
-        {"rating": 5 },
-        {"rating": 3 },
-        {"rating": 0 } ])
-   
-    print("about to validate... ")
+    form = PollForm(questions=[{"rating": x.score } for x in votes ])
+    titles = [ x[0].description for x in result ]
 
     if form.validate_on_submit():  # we don't have to check whether it is a POST request, validate_on_submit does this
         print("here !!")
-        for rating in form.questions.data:
-            print(rating)
+        for idx, q in enumerate(form.questions):
+            # put the scores back into the database and go to thank you page...
+            votes[idx].score = q.rating.data
+            
+            # update fields from form
+            db.session.add(votes[idx])
+        
+        db.session.commit()
+        return redirect(url_for('main.success'))
 
-        # here redirect to "thank you page" return redirect(url_for("main.poll"))  
-
-    print(form.questions)
-    print(form.errors)
+    #print(form.questions)
+    #print(form.errors)
 
     return render_template(
         'poll.html',
@@ -46,3 +49,9 @@ def poll():
         titles=titles,    
         form=form)
 
+
+@main.route('/success')
+@login_required
+def success():
+    logout_user()
+    return render_template('success.html')
