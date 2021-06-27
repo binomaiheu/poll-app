@@ -5,18 +5,18 @@
   Welcome, {{secret_key}}
 </h1>
 
-<div class="column is-4 is-offset-4">
-
 <form method="POST" action="/poll">   
   {{ form.csrf_token }}  
-  <table>  
+
   {% for question in form.questions %}          
-      <tr><td>{{ titles[loop.index0] }} : </td>
-          <td>{{ question.hidden_tag() }}{{ question.form.rating(class_="input") }}</td>
-          </tr>
+    <div class="columns">
+      <div class="column is-three-quarters">
+        <p style="text-align:left;">{{ titles[loop.index0] }} :</p>
+      </div>
+      <div class="column">{{ question.hidden_tag() }}{{ question.form.rating() }}</div>
+    </div>
   {% endfor %}
-</table>
-</div>
+
 
 <div class="column is-4 is-offset-4">
   {{ form.submit(class_="button is-block is-info is-large is-fullwidth")}}
