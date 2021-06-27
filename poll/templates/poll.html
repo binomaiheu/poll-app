@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="title">
-  Welcome, {{secret_key}}
-</h1>
 
+<div class="box">
+<p style="text-align: left;">Met de schuifbalk kan je aangeven hoe belangrijk je de functie of het inrichtings element vind voor ons pleintje. Indien
+je de schuifbalk helemaal links zet, dan wil dat zeggen dat je aan het desbetreffende item geen waarde hecht, indien je 
+schuifbalk helemaal naar rechts zet, dan hecht je veel waarde aan dit item. </p>
+
+<br/>
+<p style="text-align: left;"><b>Klik op de verzend knop onderaan om je voorkeuren te registreren...</b></p>
+</div>
+
+<div class="box">
 <form method="POST" action="/poll">   
   {{ form.csrf_token }}  
 
