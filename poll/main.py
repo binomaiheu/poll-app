@@ -29,15 +29,17 @@ def poll():
     titles = [ x[0].description for x in result ]
 
     if form.validate_on_submit():  # we don't have to check whether it is a POST request, validate_on_submit does this
-        print("here !!")
+
         for idx, q in enumerate(form.questions):
             # put the scores back into the database and go to thank you page...
             votes[idx].score = q.rating.data
             
-            # update fields from form
+            # add to the session
             db.session.add(votes[idx])
         
+        # and persist to database
         db.session.commit()
+        
         return redirect(url_for('main.success'))
 
     #print(form.questions)
