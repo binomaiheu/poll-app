@@ -61,6 +61,7 @@ elements = [ Option(description=option_list["Elementen"][i], category="Elementen
 # generate list of num_users users with random secret key
 users = [ User(secret_key=key_gen(), weight=1.) for i in range(num_users) ]
 
+
 # insert in the database
 db.app = app
 db.init_app(app)
@@ -68,5 +69,17 @@ db.create_all()
 db.session.bulk_save_objects(functions)
 db.session.bulk_save_objects(elements)
 db.session.bulk_save_objects(users)
+
+db.session.commit()
+
+# now generate the votes
+# query the whole list to get the id's from the database & reset the score for all 
+users = User.query.all()
+options = Option.query.all()
+for u in users:
+    for q in options:
+        print(u.id)
+        v = Vote(user_id=u.id, option_id=q.id, score=0)
+        db.session.add(v)
 
 db.session.commit()
