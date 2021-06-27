@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from flask_login.utils import _secret_key
 from . import db
 from .forms import PollForm
+from .tools import get_list_of_elements
 
 main = Blueprint('main', __name__)
 
@@ -18,12 +19,9 @@ def poll():
     # https://prettyprinted.com/tutorials/how-to-use-fieldlist-in-flask-wtf
    
 
-    titles = [
-        "Idea 1",
-        "Idea 2",
-        "Idea 3"
-    ]
+    titles = get_list_of_elements()
 
+    user_scores = get_user_scores( current_user.secret_key )
 
     form = PollForm(questions=[ 
         {"rating": 5 },
