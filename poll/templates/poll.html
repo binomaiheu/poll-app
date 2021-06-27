@@ -4,4 +4,24 @@
 <h1 class="title">
   Welcome, {{secret_key}}
 </h1>
+
+<div class="column is-4 is-offset-4">
+
+<form method="POST" action="/poll">   
+  {{ form.csrf_token }}  
+  <table>  
+  {% for question in form.questions %}          
+      <tr><td>{{ titles[loop.index0] }} : </td>
+          <td>{{ question.hidden_tag() }}{{ question.form.rating(class_="input") }}</td>
+          </tr>
+  {% endfor %}
+</table>
+</div>
+
+<div class="column is-4 is-offset-4">
+  {{ form.submit(class_="button is-block is-info is-large is-fullwidth")}}
+</div>
+</form>
+
+
 {% endblock %}
