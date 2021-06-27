@@ -78,7 +78,6 @@ users = User.query.all()
 options = Option.query.all()
 for u in users:
     for q in options:
-        print(u.id)
         v = Vote(user_id=u.id, option_id=q.id, score=0)
         db.session.add(v)
 
