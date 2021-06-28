@@ -24,5 +24,6 @@ class PollForm(FlaskForm):
 
     """
     questions = FieldList(FormField(QuestionForm), min_entries=1)
-    submit = SubmitField("Verzenden...")
+    save = SubmitField("Bewaren")
+    submit = SubmitField("Stemmen")
 
