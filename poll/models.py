@@ -17,6 +17,7 @@ class User(UserMixin, Base):
     __table_name__ = "user"
 
     secret_key = db.Column(db.String(10), unique=True) # secret key used for authenticating whether you are allowed to vote
+    has_saved = db.Column(db.Boolean, default=False) # user pressed save in the form
     has_voted = db.Column(db.Boolean, default=False) # used to close the submission
     weight = db.Column(db.Float, default=1.) 
 
