@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, flash
 from flask.helpers import url_for
 from flask_login import login_required, current_user, logout_user
 from flask_login.utils import _secret_key
@@ -41,17 +41,18 @@ def poll():
         db.session.commit()
         
         # set voted flag
-        current_user.has_voted = True
-        db.session.add(current_user)
-        db.session.commit()
+        if form.submit.data:
+            current_user.has_voted = True
+            db.session.add(current_user)
+            db.session.commit()
+            return redirect(url_for('main.success'))
+        else:
+            current_user.has_saved = True
+            db.session.add(current_user)
+            db.session.commit()
+            flash("Je voorkeuren zijn opgeslagen, druk op stemmen om je stem te registeren")
 
-        return redirect(url_for('main.success'))
-
-    #print(form.questions)
-    #print(form.errors)
-
-    return render_template(
-        'poll.html',
+    return render_template('poll.html',
         secret_key=current_user.secret_key, 
         titles=titles,    
         form=form)
