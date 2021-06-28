@@ -3,16 +3,24 @@
 {% block content %}
 
 <div class="box">
-<p style="text-align: left;">Met de schuifbalk kan je aangeven hoe belangrijk je de functie of het inrichtings element vind voor ons pleintje. Indien
-je de schuifbalk helemaal links zet, dan wil dat zeggen dat je aan het desbetreffende item geen waarde hecht, indien je 
-schuifbalk helemaal naar rechts zet, dan hecht je veel waarde aan dit item. </p>
+  <p style="text-align: left;">Met de schuifbalk kan je aangeven hoe belangrijk je de functie of het inrichtings element vind voor ons pleintje. Indien
+    je de schuifbalk helemaal links zet, dan wil dat zeggen dat je aan het desbetreffende item geen waarde hecht, indien je 
+    schuifbalk helemaal naar rechts zet, dan hecht je veel waarde aan dit item. </p>
 
-<br/>
-<p style="text-align: left;"><b>Klik op de verzend knop onderaan om je voorkeuren te registreren...</b></p>
+  <br/>
+  <p style="text-align: left;"><b>Klik op de verzend knop onderaan om je voorkeuren te registreren...</b></p>
 </div>
 
 <div class="box">
-<form method="POST" action="/poll">   
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+      <div class="notification is-warning">
+          {{ messages[0] }}
+      </div>
+  {% endif %}
+  {% endwith %}
+
+  <form method="POST" action="/poll">   
   {{ form.csrf_token }}  
 
   {% for question in form.questions %}          
@@ -24,11 +32,15 @@ schuifbalk helemaal naar rechts zet, dan hecht je veel waarde aan dit item. </p>
     </div>
   {% endfor %}
 
-
-<div class="column is-4 is-offset-4">
-  {{ form.submit(class_="button is-block is-info is-large is-fullwidth")}}
+<div class="columns"> 
+  <div class="column is-one-quarter">
+    {{ form.save(class_="button is-block is-info is-large is-fullwidth")}}
+  </div>
+  <div class="column is-one-quarter">
+    {{ form.submit(class_="button is-block is-info is-large is-fullwidth")}}
+  </div>
 </div>
 </form>
-
+</div>
 
 {% endblock %}
