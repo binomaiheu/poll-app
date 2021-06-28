@@ -19,11 +19,11 @@ def login():
         user = User.query.filter_by(secret_key=secret_key).first()        
 
         if not user:
-            flash("Deze code is niet geldig, probeer opnieuw...")
+            flash("Ongeldige code, probeer opnieuw...")
             return redirect(url_for("auth.login"))
 
         if user.has_voted:
-            flash("Deze code is reeds gebruikt")
+            flash("Deze stem is reeds geregistreerd...")
             return redirect(url_for("auth.login"))
 
         # if the above check passes, then we know the user has the right credentials
