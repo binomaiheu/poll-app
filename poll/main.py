@@ -40,6 +40,11 @@ def poll():
         # and persist to database
         db.session.commit()
         
+        # set voted flag
+        current_user.has_voted = True
+        db.session.add(current_user)
+        db.session.commit()
+
         return redirect(url_for('main.success'))
 
     #print(form.questions)
