@@ -29,16 +29,26 @@
       <p style="text-align: left;">Functies</p>
     </div>
     <div class="content">
-      <p style="text-align: left;"><b>Geef hier aan welke prioriteit je aan verschillende functies toekent</b></p>
+      <p style="text-align: left;">Geef hier aan welke prioriteit je aan verschillende functies voor het plein toekent, gaande
+        van 0 : <em>over my dead body !</em>, tot 5 : <em>oh yes please !</em>
+      </p>
     </div>  
-    {% for q in form.functions %}   
-    <div class="columns">
-      <div class="column is-three-quarters">
-        <p style="text-align:left;">{{ titles_functions[loop.index0] }}</p>
-      </div>
-      <div class="column">{{ q.hidden_tag() }}{{ q.form.rating() }}</div>
-    </div>
-    {% endfor %}
+    <table class="table is-hoverable" width="100%">
+      <thead>
+        <tr><th align="left">Functie</th>
+          {% for subfield in form.functions[0].rating %}
+            <th>{{ subfield.label }}</th>
+          {% endfor %}          
+       </tr></thead>
+       {% for q in form.functions %}   
+        <tr>
+          <td align="left">{{ titles_functions[loop.index0] }}</td>
+          {% for subfield in q.form.rating %}
+            <td>{{ subfield }}</td>
+          {% endfor %}          
+        </tr>
+       {% endfor %}
+    </table>
   </div>
   
   <div class="box">
@@ -46,17 +56,25 @@
       <p style="text-align: left;">Inrichtings elementen</p>
     </div>
     <div class="content">
-      <p style="text-align: left;"><b>Geef hier aan welke prioriteit je aan verschillende inrichtings elementen voor het 
-         pleintje toekent.</b></p>
+      <p style="text-align: left;">Geef hier aan welke prioriteit je aan verschillende inrichtings elementen voor het 
+         pleintje toekent, , gaande van 0 : <em>not in my lifetime !</em>, tot 5 : <em>Duh !</em></p>
     </div>  
-    {% for q in form.elements %}          
-    <div class="columns">
-      <div class="column is-three-quarters">
-        <p style="text-align:left;">{{ titles_elements[loop.index0] }}</p>
-      </div>
-      <div class="column">{{ q.hidden_tag() }}{{ q.form.rating() }}</div>
-    </div>
-  {% endfor %}
+    <table class="table is-hoverable" width="100%">
+      <thead>
+        <tr><th align="left">Element</th>
+          {% for subfield in form.elements[0].rating %}
+            <th>{{ subfield.label }}</th>
+          {% endfor %}          
+       </tr></thead>
+       {% for q in form.elements %}   
+        <tr>
+          <td align="left">{{ titles_elements[loop.index0] }}</td>
+          {% for subfield in q.form.rating %}
+            <td>{{ subfield }}</td>
+          {% endfor %}          
+        </tr>
+       {% endfor %}
+    </table>
 </div>
 
 <div class="box">
