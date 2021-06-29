@@ -17,8 +17,7 @@ def get_user_scores(secret_key: str):
     """
     Returns the scores from the db for the given secret key
     """
-    
-    return db.session.query(Option, Vote, User).\
+    return db.session.query(Option, Vote).\
             join(Vote, Vote.option_id == Option.id).\
             join(User, Vote.user_id == User.id).\
             filter(User.secret_key == secret_key).\

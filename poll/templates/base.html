@@ -6,40 +6,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dennenhof Poll</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" />
 </head>
 
 <body>
     <section class="hero is-primary is-fullheight">
-
         <div class="hero-head">
-            <nav class="navbar">
-                <div class="container">
+            <nav class="navbar is-mobile" role="navigation">
+                <div class="navbar-menu is-active">
+                    <div class="navbar-start">
+                        <a href="{{ url_for('main.index') }}" class="navbar-item">
+                            Home
+                        </a>
+                        
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('main.poll') }}" class="navbar-item">
+                            Poll
+                        </a>
+                        {% endif %}
+                        
+                        {% if not current_user.is_authenticated %}
+                        <a href="{{ url_for('auth.login') }}" class="navbar-item">
+                            Login
+                        </a>                        
+                        {% endif %}
 
-                    <div id="navbarMenuHeroA" class="navbar-menu is-active">
-                        <div class="navbar-start">
-                            <a href="{{ url_for('main.index') }}" class="navbar-item">
-                                Home
-                            </a>
-                            
-                            {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('main.poll') }}" class="navbar-item">
-                                Poll
-                            </a>
-                            {% endif %}
-                            
-                            {% if not current_user.is_authenticated %}
-                            <a href="{{ url_for('auth.login') }}" class="navbar-item">
-                                Login
-                            </a>                        
-                            {% endif %}
-
-                            {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('auth.logout') }}" class="navbar-item">
-                                Logout
-                            </a>
-                            {% endif %}
-                        </div>
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('auth.logout') }}" class="navbar-item">
+                            Logout
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </nav>

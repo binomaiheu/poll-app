@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 
 from wtforms import StringField, SubmitField
 from wtforms.fields.html5 import IntegerRangeField
-from wtforms import FieldList, FormField
+from wtforms import FieldList, FormField, RadioField
 from wtforms.validators import DataRequired, InputRequired, NumberRange
 
 class LoginForm(FlaskForm):
@@ -14,8 +14,15 @@ class QuestionForm(FlaskForm):
     """
     Form for an individual question with a rating
     """    
-    #rating = IntegerRangeField('rating', validators=[InputRequired(), NumberRange(min=0, max=5)])
-    rating = IntegerRangeField('rating', render_kw={"min": 0, "max": 5, "step": 1 })
+    #rating = IntegerRangeField('rating', render_kw={"min": 0, "max": 5, "step": 1 })
+    rating = RadioField('rating', choices=[
+        (0,'0'), 
+        (1,'1'),
+        (2,'2'),
+        (3,'3'),
+        (4,'4'),
+        (5,'5')
+    ], default=0)
 
 
 class PollForm(FlaskForm):
@@ -23,6 +30,8 @@ class PollForm(FlaskForm):
     Form for a list of questions, see : https://newbedev.com/add-input-fields-dynamically-with-wtforms
 
     """
-    questions = FieldList(FormField(QuestionForm), min_entries=1)
-    submit = SubmitField("Verzenden...")
+    functions = FieldList(FormField(QuestionForm), min_entries=1)
+    elements  = FieldList(FormField(QuestionForm), min_entries=1)
+    save = SubmitField("Bewaren")
+    submit = SubmitField("Stemmen")
 
