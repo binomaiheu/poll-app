@@ -23,7 +23,8 @@ class PollForm(FlaskForm):
     Form for a list of questions, see : https://newbedev.com/add-input-fields-dynamically-with-wtforms
 
     """
-    questions = FieldList(FormField(QuestionForm), min_entries=1)
+    functions = FieldList(FormField(QuestionForm), min_entries=1)
+    elements  = FieldList(FormField(QuestionForm), min_entries=1)
     save = SubmitField("Bewaren")
     submit = SubmitField("Stemmen")
 

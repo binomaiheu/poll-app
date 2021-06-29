@@ -3,15 +3,16 @@
 {% block content %}
 
 <div class="box">
-  <p style="text-align: left;">Met de schuifbalk kan je aangeven hoe belangrijk je de functie of het inrichtings element vind voor ons pleintje. Indien
-    je de schuifbalk helemaal links zet, dan wil dat zeggen dat je aan het desbetreffende item geen waarde hecht, indien je 
-    schuifbalk helemaal naar rechts zet, dan hecht je veel waarde aan dit item. </p>
-
-  <br/>
-  <p style="text-align: left;"><b>Klik op de verzend knop onderaan om je voorkeuren te registreren...</b></p>
-</div>
-
-<div class="box">
+  <div class="content is-large">
+    <p style="text-align: left;">Poll inrichting pleintje</p>
+  </div>
+  <div class="content">
+    <p style="text-align: left;">Met de schuifbalk kan je aangeven hoe belangrijk je de functie of het inrichtings element vind voor ons pleintje. Indien
+      je de schuifbalk helemaal links zet, dan wil dat zeggen dat je aan het desbetreffende item geen waarde hecht, indien je 
+      schuifbalk helemaal naar rechts zet, dan hecht je veel waarde aan dit item. </p>
+    <p style="text-align: left;"><b>Klik onderaan op "Bewaren" om je keuzes op te slaan, klik op "Stemmen" om je stem definitief 
+      te registreren. Eenmaal je stem geregistreerd is kan je die niet meer wijzigen.</b></p>
+  </div>
   {% with messages = get_flashed_messages() %}
   {% if messages %}
       <div class="notification is-warning">
@@ -19,25 +20,50 @@
       </div>
   {% endif %}
   {% endwith %}
+</div>
 
-  <form method="POST" action="/poll">   
+<form method="POST" action="/poll">     
   {{ form.csrf_token }}  
-
-  {% for question in form.questions %}          
+  <div class="box">
+    <div class="content is-large">
+      <p style="text-align: left;">Functies</p>
+    </div>
+    <div class="content">
+      <p style="text-align: left;"><b>Geef hier aan welke prioriteit je aan verschillende functies toekent</b></p>
+    </div>  
+    {% for q in form.functions %}   
     <div class="columns">
       <div class="column is-three-quarters">
-        <p style="text-align:left;">{{ titles[loop.index0] }} :</p>
+        <p style="text-align:left;">{{ titles_functions[loop.index0] }}</p>
       </div>
-      <div class="column">{{ question.hidden_tag() }}{{ question.form.rating() }}</div>
+      <div class="column">{{ q.hidden_tag() }}{{ q.form.rating() }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  
+  <div class="box">
+    <div class="content is-large">
+      <p style="text-align: left;">Inrichtings elementen</p>
+    </div>
+    <div class="content">
+      <p style="text-align: left;"><b>Geef hier aan welke prioriteit je aan verschillende inrichtings elementen voor het 
+         pleintje toekent.</b></p>
+    </div>  
+    {% for q in form.elements %}          
+    <div class="columns">
+      <div class="column is-three-quarters">
+        <p style="text-align:left;">{{ titles_elements[loop.index0] }}</p>
+      </div>
+      <div class="column">{{ q.hidden_tag() }}{{ q.form.rating() }}</div>
     </div>
   {% endfor %}
+</div>
 
-<div class="columns"> 
-  <div class="column is-one-quarter">
-    {{ form.save(class_="button is-block is-info is-large is-fullwidth")}}
+<div class="box">
+  <div class="buttons has-addons is-right">    
+    {{ form.save(class_="button is-info is-outlined")}}
+    {{ form.submit(class_="button is-danger is-outlined")}}
   </div>
-  <div class="column is-one-quarter">
-    {{ form.submit(class_="button is-block is-info is-large is-fullwidth")}}
   </div>
 </div>
 </form>

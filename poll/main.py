@@ -20,23 +20,32 @@ def poll():
 
     # https://prettyprinted.com/tutorials/how-to-use-fieldlist-in-flask-wtf
    
-    # get the scores given by the user to each option
+    # get the scores given by the user to each option, this returns a list of 
+    # tuples containing the (Option, Vote) for the query
     result = get_user_scores( current_user.secret_key )
 
-    votes = [ x[1] for x in result ]
+    votes_functions = [ x[1] for x in result if x[0].category == "Functies" ]
+    votes_elements  = [ x[1] for x in result if x[0].category == "Elementen" ]
 
-    form = PollForm(questions=[{"rating": x.score } for x in votes ])
-    titles = [ x[0].description for x in result ]
+    titles_functions = [ x[0].description for x in result if x[0].category == "Functies" ]
+    titles_elements = [ x[0].description for x in result if x[0].category == "Elementen"]
+
+    form = PollForm(functions=[{"rating": v.score } for v in votes_functions ],
+                    elements=[{"rating": v.score } for v in votes_elements ])
+    
 
     if form.validate_on_submit():  # we don't have to check whether it is a POST request, validate_on_submit does this
 
-        for idx, q in enumerate(form.questions):
+        for idx, q in enumerate(form.functions):
             # put the scores back into the database and go to thank you page...
-            votes[idx].score = q.rating.data
-            
-            # add to the session
-            db.session.add(votes[idx])
+            votes_functions[idx].score = q.rating.data
+            db.session.add(votes_functions[idx])
         
+        for idx, q in enumerate(form.elements):
+            # put the scores back into the database and go to thank you page...
+            votes_elements[idx].score = q.rating.data
+            db.session.add(votes_elements[idx])
+
         # and persist to database
         db.session.commit()
         
@@ -54,7 +63,8 @@ def poll():
 
     return render_template('poll.html',
         secret_key=current_user.secret_key, 
-        titles=titles,    
+        titles_functions=titles_functions,
+        titles_elements=titles_elements,    
         form=form)
 
 
