@@ -33,22 +33,24 @@
         van 0 : <em>over my dead body !</em>, tot 5 : <em>oh yes please !</em>
       </p>
     </div>  
-    <table class="table is-hoverable" width="100%">
-      <thead>
-        <tr><th align="left">Functie</th>
-          {% for subfield in form.functions[0].rating %}
-            <th>{{ subfield.label }}</th>
-          {% endfor %}          
-       </tr></thead>
-       {% for q in form.functions %}   
-        <tr>
-          <td align="left">{{ titles_functions[loop.index0] }}</td>
-          {% for subfield in q.form.rating %}
-            <td>{{ subfield }}</td>
-          {% endfor %}          
-        </tr>
-       {% endfor %}
-    </table>
+    <div class="table-container">
+      <table class="table is-hoverable is-fullwidth is-size-7 is-narrow">
+        <thead>
+          <tr><th align="left">Functie</th>
+            {% for subfield in form.functions[0].rating %}
+              <th>{{ subfield.label }}</th>
+            {% endfor %}          
+        </tr></thead>
+        {% for q in form.functions %}   
+          <tr>
+            <td align="left">{{ titles_functions[loop.index0] }}</td>
+            {% for subfield in q.form.rating %}
+              <td>{{ subfield }}</td>
+            {% endfor %}          
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
   </div>
   
   <div class="box">
@@ -59,7 +61,8 @@
       <p style="text-align: left;">Geef hier aan welke prioriteit je aan verschillende inrichtings elementen voor het 
          pleintje toekent, , gaande van 0 : <em>not in my lifetime !</em>, tot 5 : <em>Duh !</em></p>
     </div>  
-    <table class="table is-hoverable" width="100%">
+    <div class="table-container">
+      <table class="table is-hoverable is-fullwidth is-size-7 is-narrow">
       <thead>
         <tr><th align="left">Element</th>
           {% for subfield in form.elements[0].rating %}
@@ -75,6 +78,7 @@
         </tr>
        {% endfor %}
     </table>
+    </div>
 </div>
 
 <div class="box">
