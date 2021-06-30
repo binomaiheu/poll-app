@@ -1,6 +1,8 @@
 import string
 import random
 
+from sqlalchemy import func
+
 from poll import db
 from poll.models import Option, Vote, User
 
@@ -22,3 +24,13 @@ def get_user_scores(secret_key: str):
             join(User, Vote.user_id == User.id).\
             filter(User.secret_key == secret_key).\
             order_by(Option.id).all()
+
+def get_vote_status():
+    """
+    Returns the vote status, returns list
+    [ #votes, total ]
+    """
+    return {
+        "n_votes": db.session.query(func.count(User.id)).filter(User.has_voted).one()[0],
+        "n_users": db.session.query(func.count(User.id)).one()[0]
+    }

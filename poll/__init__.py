@@ -109,7 +109,7 @@ def create_db():
         ]
     }
 
-    num_users = 10
+    num_users = 20
 
     # different options
     functions = [ Option(description=option_list["Functies"][i], category="Functies") for i in range(len(option_list["Functies"])) ]

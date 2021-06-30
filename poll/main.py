@@ -5,13 +5,15 @@ from flask_login.utils import _secret_key
 from werkzeug.utils import redirect
 from . import db
 from .forms import PollForm
-from .tools import get_user_scores
+from .tools import get_user_scores, get_vote_status
 
 main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    return render_template('index.html')
+    stats =  get_vote_status()
+    return render_template('index.html',
+        stats=stats)
 
 
 @main.route('/poll', methods=['GET', 'POST'])
