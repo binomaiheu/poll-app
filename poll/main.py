@@ -53,6 +53,7 @@ def poll():
         
         # set voted flag
         if form.submit.data:
+            current_user.has_saved = True
             current_user.has_voted = True
             db.session.add(current_user)
             db.session.commit()
