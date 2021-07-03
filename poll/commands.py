@@ -139,20 +139,20 @@ def poll_stats():
     
     print('Function votes')
     print('--------------')
-    results = db.session.query(Option, Vote, func.sum(Vote.score).label("total_score"))\
+    results = db.session.query(Option, func.sum(Vote.score).label("total_score"))\
                 .join(Option, Vote.option_id == Option.id)\
                 .filter(Option.category == "Functies")\
-                .group_by(Vote.option_id)\
+                .group_by(Option.id)\
                 .order_by(desc("total_score"))
     for idx, r in enumerate(results):
-        print(  f"  [{idx+1}] {r[0].description} (total score={r[2]})")
+        print(  f"  [{idx+1}] {r[0].description} (total score={r[1]})")
 
     print('Elements votes')
     print('--------------')
-    results = db.session.query(Option, Vote, func.sum(Vote.score).label("total_score"))\
+    results = db.session.query(Option, func.sum(Vote.score).label("total_score"))\
                 .join(Option, Vote.option_id == Option.id)\
                 .filter(Option.category == "Elementen")\
-                .group_by(Vote.option_id)\
+                .group_by(Option.id)\
                 .order_by(desc("total_score"))
     for idx, r in enumerate(results):
-        print(  f"  [{idx+1}] {r[0].description} (total score={r[2]})")
+        print(  f"  [{idx+1}] {r[0].description} (total score={r[1]})")
