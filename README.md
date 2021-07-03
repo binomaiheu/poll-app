@@ -32,3 +32,25 @@ To remove all the tables :
 flask dropdb
 ```
 
+## Configuration
+
+Create .env file with :
+
+```
+FLASK_APP=poll
+FLASK_ENV=development
+
+SECRET_KEY=123456
+
+SQLALCHEMY_TRACK_MODIFICATIONS=False
+SQLALCHEMY_DATABASE_URI="sqlite:///poll.db"
+```
+
+## Deploying
+apt update
+apt upgrade
+apt install libpq-dev
+python -m venv venv
+./venv/bin/activate
+pip install -r requirements.txt
+
