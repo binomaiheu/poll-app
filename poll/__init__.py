@@ -82,7 +82,7 @@ def create_db():
             "Trampoline / springkussen ingewerkt in de grond",
             "Petanquebaan",
             "Bomen",
-            "Fruitbomen"
+            "Fruitbomen",
             "Notenbomen",
             "Voetbal pleintje met doeltjes",
             "Fietsdraaimolen",
