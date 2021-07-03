@@ -11,8 +11,11 @@ Some links :
 
 ## gunicorn
 
+Created a web service gateway interface file (wsgi.py) which calls dotenv and then the factory pattern, 
+for gunicorn production deployment you can use this : 
+
 ```
-$ gunicorn -c gunicorn_config.py "poll:create_app()"
+$ gunicorn -c gunicorn_config.py wsgi:app
 ```
 
 

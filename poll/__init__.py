@@ -1,20 +1,14 @@
-import os
-
-import click
 from flask import Flask
 from flask_login import LoginManager
-from flask.cli import load_dotenv, with_appcontext
-from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 
-db = SQLAlchemy()
+from .models import db
 
 def create_app():
 
     app = Flask(__name__)
 
     app.config.from_object("config.Config")
-
     db.init_app(app)
 
     login_manager = LoginManager()
@@ -50,100 +44,12 @@ def create_app():
     app.register_blueprint(main_blueprint)
 
     # adding the cli 
+    from .commands import create_db, drop_db, add_user, poll_stats
+
     app.cli.add_command(create_db)    
     app.cli.add_command(drop_db) 
-
+    app.cli.add_command(add_user)
+    app.cli.add_command(poll_stats)
+    
     return app
 
-
-@click.command('createdb')
-@with_appcontext
-def create_db():
-    """
-    Command to initilize the database
-    """
-
-    # Need to import those here and not at the top otherwise we get circular import errors
-    from .models import User, Vote, Option
-    from .tools import key_gen
-
-    db.create_all()
-
-    # Confugration
-    option_list = {
-        "Functies": [
-            "Ontmoetingsplaats voor jong en oud",
-            "Groenzone, nadruk op bomen, struiken, vegetatie",
-            "Sportterrein",
-            "Zone om activiteiten te organiseren met de wijk",
-            "Speeltuin / avontuurlijke zone voor de kinderen"
-        ],
-        "Elementen": [
-            "Trampoline / springkussen ingewerkt in de grond",
-            "Petanquebaan",
-            "Bomen",
-            "Fruitbomen",
-            "Notenbomen",
-            "Voetbal pleintje met doeltjes",
-            "Fietsdraaimolen",
-            "Deadride zoals achter gemeentehuis in Destelbergen",
-            "Basketbal goal",
-            "Grillplaats",
-            "Heuveltje als speels landschapselement",
-            "Tennis terrein",
-            "Padel terrein",
-            "Schommels",
-            "Wipplank",
-            "Zandbak",
-            "Blote voetenpad",
-            "Pluktuin met bessenstruken, rabarber, e.d.",
-            "Bloemenweide voor de bijtjes",
-            "Zwemvijver",
-            "Electriciteit en watervoorziening om activiteiten te kunnen organiseren",
-            "Workout toestellen voor adolescenten en volwassenen",
-            "Schommelbank voor ouderen of mindervaliden",
-            "Hangmatten",
-            "Zitbanken",
-            "Picnic tafels",
-            "Levensgroot schaakspel",
-            "Lage boomhut",
-            "Atletiek oefenplein zoals vb. Kogelstoten, speerwerpen",
-            "Open stuk met enkel gras voor activiteiten"
-        ]
-    }
-
-    num_users = 20
-
-    # different options
-    functions = [ Option(description=option_list["Functies"][i], category="Functies") for i in range(len(option_list["Functies"])) ]
-    elements = [ Option(description=option_list["Elementen"][i], category="Elementen") for i in range(len(option_list["Elementen"])) ]
-
-
-    # generate list of num_users users with random secret key
-    users = [ User(secret_key=key_gen(), weight=1.) for i in range(num_users) ]
-
-
-    # insert in the database
-    db.create_all()
-    db.session.bulk_save_objects(functions)
-    db.session.bulk_save_objects(elements)
-    db.session.bulk_save_objects(users)
-
-    db.session.commit()
-
-    # now generate the votes
-    # query the whole list to get the id's from the database & reset the score for all 
-    users = User.query.all()
-    options = Option.query.all()
-    for u in users:
-        for q in options:
-            v = Vote(user_id=u.id, option_id=q.id, score=0)
-            db.session.add(v)
-
-    db.session.commit()
-
-
-@click.command('dropdb')
-@with_appcontext
-def drop_db():
-    db.drop_all()

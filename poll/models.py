@@ -1,7 +1,8 @@
 from flask_login import UserMixin
+from flask_sqlalchemy import SQLAlchemy
 from enum import unique
 
-from . import db
+db = SQLAlchemy()
 
 class Base(db.Model):
     __abstract__ = True
