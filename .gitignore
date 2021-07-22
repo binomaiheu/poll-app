@@ -1,4 +1,8 @@
 poll.db
+output/
+*.pdf
+*.zip
+*.xlsx
 __pycache__/
 poll/__pycache__/
 venv/
