@@ -5,7 +5,11 @@ from flask_login.utils import _secret_key
 from werkzeug.utils import redirect
 from . import db
 from .forms import PollForm
-from .tools import get_user_scores, get_vote_status
+from .tools import get_results, get_user_scores, get_vote_status
+
+import json
+import plotly
+import plotly.graph_objects as go
 
 main = Blueprint('main', __name__)
 
@@ -76,3 +80,28 @@ def poll():
 def success():
     logout_user()
     return render_template('success.html')
+
+@main.route('/results')
+def results():
+
+    df = get_results()
+
+    fig_functions = go.Bar(
+        x=df[df["type"]=="function"].sort_values("score")["score"],
+        y=df[df["type"]=="function"].sort_values("score")["description"],
+        text=df[df["type"]=="function"].sort_values("score")["score"],
+        orientation="h",
+        textposition='auto')
+
+    fig_elements = go.Bar(
+        x=df[df["type"]=="elements"].sort_values("score")["score"],
+        y=df[df["type"]=="elements"].sort_values("score")["description"],
+        text=df[df["type"]=="elements"].sort_values("score")["score"],
+        orientation="h",
+        textposition='auto')
+
+    return render_template(
+        'results.html',
+        graph_functions=json.dumps(fig_functions, cls=plotly.utils.PlotlyJSONEncoder),
+        graph_elements=json.dumps(fig_elements, cls=plotly.utils.PlotlyJSONEncoder)
+    )

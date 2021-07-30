@@ -57,3 +57,13 @@ python -m venv venv
 ./venv/bin/activate
 pip install -r requirements.txt
 
+## Generating the letters
+
+* created word template, following : https://pypi.org/project/docx-mailmerge/
+  * the template fields in the template word document have to be created by : Insert > Quick Parts > Field 
+  * and then choose "MergeField" option from the FieldNames list and enter a field name
+  * these fieldnames you'll have to supply as kwargs in the docx-mailmerge "merge()" function
+  * see: https://pbpython.com/python-word-template.html 
+* running create_letters.py
+* convert all the docx to pdf : https://pypi.org/project/docx2pdf/
+* merge pdf files for easy printing : https://smallpdf.com/merge-pdf
