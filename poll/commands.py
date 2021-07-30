@@ -6,6 +6,8 @@ from sqlalchemy import func, desc
 from .models import db, User, Vote, Option
 from .tools import get_vote_status, key_gen
 
+import pandas as pd
+
 @click.command('createdb')
 @click.argument("num_users")
 @with_appcontext
@@ -156,3 +158,4 @@ def poll_stats():
                 .order_by(desc("total_score"))
     for idx, r in enumerate(results):
         print(  f"  [{idx+1}] {r[0].description} (total score={r[1]})")
+

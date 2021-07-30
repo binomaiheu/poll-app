@@ -8,6 +8,8 @@
     <title>Dennenhof Poll</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" />
     <script src="{{url_for('static', filename='js/navbar-toggle.js')}}"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
 </head>
 
 <body>
@@ -30,6 +32,9 @@
                         <div class="navbar-end">
                             <a href="{{ url_for('main.index') }}" class="navbar-item is-active">
                                 Home
+                            </a>
+                            <a href="{{ url_for('main.results') }}" class="navbar-item">
+                                Resultaten
                             </a>
                             {% if current_user.is_authenticated %}
                             <a href="{{ url_for('main.poll') }}" class="navbar-item">
