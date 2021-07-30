@@ -26,9 +26,15 @@
                 height: 350,
                 yaxis: {
                     automargin: true
+                },
+                xaxis: {
+                    title: 'Totale score'
                 }
             };
-            var config = {responsive: true}
+            var config = {
+                responsive: true,
+                displayModeBar: false
+            }
 
             Plotly.newPlot('chart_functions', [ data ], layout, config);
           </script>        
@@ -53,9 +59,15 @@
                 height: 1200,
                 yaxis: {
                     automargin: true
+                },
+                xaxis: {
+                    title: 'Totale score'
                 }
             };
-            var config = {responsive: true}
+            var config = {
+                responsive: true,
+                displayModeBar: false
+            }
 
             Plotly.newPlot('chart_elements', [ data ], layout, config);
           </script>        
