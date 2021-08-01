@@ -6,23 +6,20 @@
 <div class="box">
   <div class="content is-large">
     <p style="text-align: left;">Hieronder zijn de resultaten afgebeeld van de poll. De grafieken tonen telkens de totale score
-    uit de stemming.<br />Er zijn in totaal 25 stemmen uitgebracht.</p>      
+    uit de stemming.<br /><br />Er zijn in totaal 25 van de 41 stemmen uitgebracht.</p>      
   </div>
 </div>
 
 <div class="box">
     <div class="content is-large">
-    <div id="chart_functions" class="chart">
+        <p>Welke functie dient het pleintje te vervullen ?</p>
+      </div>
+    <div class="content is-large">    
+    <div id="chart_functions" class="chart">                
         <script type="text/javascript">
             var data = {{ graph_functions | safe }};
             console.log(data);
             var layout = {
-                title: {
-                    text: 'Welke functie dient het pleintje te vervullen ?',
-                    font: {
-                        size: 24
-                    }
-                },
                 height: 350,
                 yaxis: {
                     automargin: true
@@ -45,17 +42,14 @@
 
 <div class="box">
     <div class="content is-large">
+        <p>Welke elementen dienen aanwezig te zijn ?</p>
+      </div>
+    <div class="content is-large">
     <div id="chart_elements" class="chart">
         <script type="text/javascript">
             var data = {{ graph_elements | safe }};
             console.log(data);
             var layout = {
-                title: {
-                    text: 'Welke elementen dienen aanwezig te zijn ?',
-                    font: {
-                        size: 24
-                    }
-                },
                 height: 1200,
                 yaxis: {
                     automargin: true
